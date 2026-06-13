@@ -6,48 +6,52 @@ from pathlib import PosixPath
 import shutil
 import sys
 
+class NotADirectory(BaseException):
+    def __init__(self,directory):
+        super().__init__(f"{directory} is not a directory.")
+
 class NotAFile(BaseException):
     default_err_mess = "The path does not represent a file."
 
     def __init__(self,err_message=default_err_mess):
         super().__init__(err_message)
 
-class NotADirectory(BaseException):
-    def __init__(self,directory):
-        super().__init__(f"{directory} is not a directory.")
 
 class InvalidPath(BaseException):
     
-    def __init__(self,path):
+    def __init__(self,path :Path):
         super().__init__(f'{path} is not a valid path')
+        print('Issued from InvalidPath')
+
+class FileDoesNotExist(BaseException):
+
+    def __init__(self, path : Path):
+        super().__init__(f'{path} File does not exist.')
 
 # Class that represents a file 
 class File():
 
     # The Path object contains all the information
     # related to the file it locates 
-    def __init__(self,
-                 path,
-                 name = None,
-                 date_created = None,
-                 date_modified = None,
-                 date_accessed = None):
+    def __init__(self,path :Path):
 
-        
         if not isinstance(path,Path):
             raise InvalidPath(path)
+
+        if not path.exists():
+            raise FileDoesNotExist(path)
 
         if not path.is_file():
             raise NotAFile()
 
-        self.name :string = name 
+        self.name :string = path.name 
         self._path :Path = path
 
         #Date objects
-        self.date_created :date = date_created
-        self.date_modified :date = date_modified
-        self.date_accessed :date = date_accessed
-    
+        self.year_modified = self.get_date_modified().year
+        self.month_modified = self.get_date_modified().month
+        self.day_modified = self.get_date_modified().day
+
     @property
     def path(self):
 
@@ -70,15 +74,8 @@ class File():
     # Returns the day the file was created.
     # If no day exits, it returns None
     # the day is returned as string 
-    def get_day_created(self):
-
-        day = None
-
-        
-
-        return day
-
-
+    def get_year_modified(self):
+       return self.get_date_modified().year
 
     @path.setter
     def path(self,value):
@@ -107,8 +104,9 @@ class File():
 
     # If the file is a picture, returns true 
     # otherwise it return false
-    # since there are alot of formats it might be
+    # since there are alot of formats it might be a
     # good idea to provide a file with the supported picture formats
+    # this file could be encrypted to prevent others from reading it
     def is_picture(self):
        
        f = open('./data/input/picture_format.txt','rb')
@@ -117,20 +115,19 @@ class File():
          
          f.close()
          return True
+       else: 
+         return None
 
        
-       
-
  #_________________       
 path_string = '/media/lorescruzrene/recovery/recovered_files/recup_dir.1/t0176896.jpg'
 
 #Create a path
 dir_path = Path(path_string)
 
-file = File(Path(path_string))
+file = File(Path(dir_path))
+#print(file.move_to(Path('/media/lorescruzrene/recovery/recovered_files/recup_dir.1/')))
 
-print(file.get_date_modified())
-print(file.is_picture())
 
 
 

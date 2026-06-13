@@ -1,4 +1,5 @@
 from pathlib import Path 
+from file_info_extractor import InvalidPath, NotADirectory
 
 #This is to look for mounted directories if any from 
 # the current directory up 
@@ -35,5 +36,33 @@ def find_mount_points(path):
     
     else:
       print(f'Nothing was done because {path} is not a Path object')
+
+
+class Directory:
+  
+  def __init__(self,path :Path):
+
+    if not isinstance(path, Path):
+      raise InvalidPath(path)
+
+    self.path = path
+    
+  def add_directories(self,directory :str):
+
+    for d in directory.split('/'):
+     if d:
+      self.path = Path(str(self.get_path()) + '/' + d)
+
+      try:
+        self.path.mkdir()
+      except FileExistsError:
+        pass
+
+  def remove_directory(self):
+    self.get_path().rmdir()
+    self.path = self.get_path().parent
+      
+  def get_path(self):
+    return self.path
 
 

@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 from pathlib import Path 
 from file_info_extractor import File
-from directory_manipulator import find_mount_points
+from directory_manipulator import find_mount_points, Directory
 
 
 # A list of mount points
-mount_points = find_mount_points(Path('.'))
+mount_points = find_mount_points(Path('/media/lorescruzrene/recovery/recovered_files/recup_dir.1'))
 
 print(f'This are mounted points:')
 
@@ -24,14 +24,20 @@ print("Which of this directories " + \
       "from the mount point do you want to organize?")
 
 directory = input()
-directory = Path('/media/lorescruzrene/recovery/recovered_files/recup_dir.1') 
+directory = Path('/media/lorescruzrene/recovery/recovered_files/recup_dir.2') 
 
 # Iterating over the files in the directory
 for d in directory.iterdir():
     if d.is_file():
       file = File(d)
-      print(file.path.__str__())
 
+      if file.is_picture():
+        dirr = Directory(directory)
+        dirr.add_directories('Picture/' + \
+                              str(file.year_modified) + '/' + \
+                              str(file.month_modified) + '/' + \
+                              str(file.day_modified))
+        file.move_to(dirr.path)
       
 
     
