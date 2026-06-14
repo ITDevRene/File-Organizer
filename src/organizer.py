@@ -3,6 +3,8 @@ from pathlib import Path
 from file_info_extractor import File
 from directory_manipulator import find_mount_points, Directory
 
+#This is the version of this program
+__version__ = "1.0.0"
 
 # A list of mount points
 mount_points = find_mount_points(Path('/media/lorescruzrene/recovery/recovered_files/recup_dir.1'))
@@ -22,8 +24,6 @@ for point in mount_points:
     
 print("Which of this directories " + \
       "from the mount point do you want to organize?")
-
-directory = input()
 
 # The program should be run from this directory
 # to organize it
