@@ -74,8 +74,14 @@ class File():
     # Returns the day the file was created.
     # If no day exits, it returns None
     # the day is returned as string 
-    def get_year_modified(self):
-       return self.get_date_modified().year
+    def get_month_modified(self,month_name = False):
+       m_names = ['January','February','March','April','May','June', \
+        'July','August','September','Octorber','November', 'December']
+
+       if not month_name:
+         return self.get_date_modified().month
+       else:
+         return m_names[int(self.month_modified) - 1]    
 
     @path.setter
     def path(self,value):
@@ -126,7 +132,7 @@ path_string = '/media/lorescruzrene/recovery/recovered_files/recup_dir.1/t017689
 dir_path = Path(path_string)
 
 file = File(Path(dir_path))
-#print(file.move_to(Path('/media/lorescruzrene/recovery/recovered_files/recup_dir.1/')))
+#print(file.get_month_modified(month_name = True))
 
 
 

@@ -24,7 +24,10 @@ print("Which of this directories " + \
       "from the mount point do you want to organize?")
 
 directory = input()
-directory = Path('/media/lorescruzrene/recovery/recovered_files/recup_dir.2') 
+
+# The program should be run from this directory
+# to organize it
+directory = Path.cwd() #The current directory
 
 # Iterating over the files in the directory
 for d in directory.iterdir():
@@ -35,7 +38,7 @@ for d in directory.iterdir():
         dirr = Directory(directory)
         dirr.add_directories('Picture/' + \
                               str(file.year_modified) + '/' + \
-                              str(file.month_modified) + '/' + \
+                              str(file.get_month_modified(month_name = True)) + '/' + \
                               str(file.day_modified))
         file.move_to(dirr.path)
       
