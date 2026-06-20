@@ -1,0 +1,9 @@
+pyproject.toml
+organize/__init__.py
+organize/directory_manipulator.py
+organize/file_info_extractor.py
+organize/organizer.py
+organize.egg-info/PKG-INFO
+organize.egg-info/SOURCES.txt
+organize.egg-info/dependency_links.txt
+organize.egg-info/top_level.txt
