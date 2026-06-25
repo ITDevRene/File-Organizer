@@ -164,8 +164,3 @@ class File():
             return None
 
 
-
-        
-
-    
-

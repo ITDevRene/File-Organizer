@@ -42,17 +42,30 @@ class Directory:
   
   def __init__(self,path :Path):
 
+    # Ensures the path is a path object
     if not isinstance(path, Path):
-      raise InvalidPath(path)
+      raise InvalidPath(path) #exception occurs if not a path object
 
     self.path = path
     
+  
   def add_directories(self,directory :str):
+    """
+      This fuction adds a directory or directories to the directory this
+    object represents. The variable directory is a string in path format. The
+    format is in Posix path format. In the directory string, the name of the directories
+    to add are divide by forward slash as in the posix system.
+    """
 
+    # Gets the name of the directories from the directory string
     for d in directory.split('/'):
+     
+
      if d:
       self.path = Path(str(self.get_path()) + '/' + d)
 
+      # This skips the error that would occur if 
+      # the directory exists already
       try:
         self.path.mkdir()
       except FileExistsError:
@@ -61,7 +74,9 @@ class Directory:
   def remove_directory(self):
     self.get_path().rmdir()
     self.path = self.get_path().parent
-      
+
+  # Gets the path of the directory 
+  # return a Path object   
   def get_path(self):
     return self.path
 
